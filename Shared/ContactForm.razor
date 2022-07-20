@@ -1,0 +1,41 @@
+@using System.Text.RegularExpressions;
+<div class="form-wrapper">
+    <InputValidator 
+        Name="First Name" 
+        Validator="ValidateName" 
+        ErrorMessage="First may only contain letters and must be a single word"/>
+
+    <InputValidator
+        Name="Last Name"
+        Validator="ValidateLastName"
+        ErrorMessage="Last name can only have letters and be a single word"/>
+
+    <InputValidator 
+        Name="Email"
+        Validator="ValidateEmail"
+        ErrorMessage="Email must be a valid email"/>
+
+    <InputValidator
+        Name="Message"
+        Validator="ValidateMessage"
+        ErrorMessage="That's a lot of words. Too bad I am not reading them." />
+    
+    <button @onclick="ValidateForm">Submit</button>
+</div>
+
+@code {
+
+    
+    private void ValidateForm() 
+    {
+
+    }
+
+    private bool ValidateName(string value) => Regex.IsMatch(value, "^[a-zA-Z]+$");
+
+    private bool ValidateEmail(string value) => Regex.IsMatch(value, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+
+    private bool ValidateLastName(string value) => Regex.IsMatch(value, "[a-zA-Z]+$");
+
+    private bool ValidateMessage(string value) => value.Length < 4;
+}

@@ -1,0 +1,31 @@
+@using System.Text.RegularExpressions;
+
+<label>@Name: </label><input @bind="Value" />
+<div class="errors">@Error</div>
+
+@code {
+    [Parameter]
+    public string Name { get; set; } = "UnNamed";
+
+    [Parameter]
+    public Func<string, bool> Validator { get; set; } = (n) => true;
+    [Parameter]
+    public string ErrorMessage { get; set; } = "Could not validate";
+    private string _value = "";
+    private string Value { get => _value; set => Validate(value); }
+    private string Error { get; set; } = "";
+
+    private void Validate(string newValue)
+    {
+        if (!Validator.Invoke(newValue))
+        {
+            this.Error = ErrorMessage;
+        }
+        else
+        {
+            this.Error = "";
+        }
+        this._value = newValue;
+    }
+
+}
